@@ -6,6 +6,7 @@ import org.junit.Test;
 import pages.LoginPage;
 import pages.MainPage;
 import pages.RegisterPage;
+import setup.GenerateRandomData;
 import setup.Setup;
 
 import static com.codeborne.selenide.LocalStorageConditions.item;
@@ -21,9 +22,10 @@ public class CreateUserTest extends Setup {
     LoginPage loginPage = new LoginPage();
     RegisterPage registerPage = new RegisterPage();
     User user = new User();
-    private String randomEmail = getRandomEmail();
-    private String randomName = getRandomName();
-    private String randomPassword = getRandomPassword();
+    GenerateRandomData randomData = new GenerateRandomData();
+    private String randomEmail = randomData.getRandomEmail();
+    private String randomPassword = randomData.getRandomPassword();
+    private String randomName = randomData.getRandomName();
 
     @Test
     @Description("Этот тест проверяет что можно создать пользователя")
@@ -34,7 +36,6 @@ public class CreateUserTest extends Setup {
         localStorage().shouldHave(item("accessToken"));
         userToken = localStorage().getItem("accessToken");
         assertFalse("Токена нет", userToken.isEmpty());
-        user.delete(userToken);
     }
 
     @Test
@@ -49,8 +50,10 @@ public class CreateUserTest extends Setup {
     }
 
     @After
-    public void closeDriver() {
+    public void closeDriverAndCleanData() {
         WebDriverRunner.closeWebDriver();
+        if(userToken != null) {
+            user.delete(userToken);
+        }
     }
-
 }

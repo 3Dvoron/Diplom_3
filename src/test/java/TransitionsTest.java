@@ -8,6 +8,8 @@ import pages.LoginPage;
 import pages.MainPage;
 import pages.ProfilePage;
 import pages.RegisterPage;
+import setup.Browser;
+import setup.GenerateRandomData;
 import setup.Setup;
 
 import static com.codeborne.selenide.LocalStorageConditions.item;
@@ -23,10 +25,11 @@ public class TransitionsTest extends Setup {
     RegisterPage registerPage = new RegisterPage();
     ProfilePage profilePage = new ProfilePage();
     User user = new User();
-    private String randomEmail = getRandomEmail();
-    private String randomName = getRandomName();
-    private String randomPassword = getRandomPassword();
-
+    Browser browser = new Browser();
+    GenerateRandomData randomData = new GenerateRandomData();
+    private String randomEmail = randomData.getRandomEmail();
+    private String randomPassword = randomData.getRandomPassword();
+    private String randomName = randomData.getRandomName();
     @Before
     public void createUserAndLogin() {
         open(REGISTER_URI);
@@ -39,7 +42,7 @@ public class TransitionsTest extends Setup {
 
     @Test
     @Description("Этот тест проверяет переход по клику на «Личный кабинет»")
-    public void TransitionsProfile() {
+    public void transitionsProfile() {
         open(BASE_URI);
         mainPage.clickEnterAccount();
         loginPage.authorization(randomEmail, randomPassword);
@@ -50,7 +53,7 @@ public class TransitionsTest extends Setup {
 
     @Test
     @Description("Этот тест проверяет переход из личного кабинета на главную если нажать на логотип Stellar Burgers")
-    public void TransitionsLogo() {
+    public void transitionsLogo() {
         open(BASE_URI);
         mainPage.clickEnterAccount();
         loginPage.authorization(randomEmail, randomPassword);
@@ -62,7 +65,7 @@ public class TransitionsTest extends Setup {
 
     @Test
     @Description("Этот тест проверяет переход из личного кабинета в конструктор")
-    public void TransitionsConstructorButton() {
+    public void transitionsConstructorButton() {
         open(BASE_URI);
         mainPage.clickEnterAccount();
         loginPage.authorization(randomEmail, randomPassword);

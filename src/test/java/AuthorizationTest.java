@@ -8,6 +8,7 @@ import pages.LoginPage;
 import pages.MainPage;
 import pages.RecoveryPasswordPage;
 import pages.RegisterPage;
+import setup.GenerateRandomData;
 import setup.Setup;
 
 import static com.codeborne.selenide.LocalStorageConditions.item;
@@ -22,10 +23,10 @@ public class AuthorizationTest extends Setup {
     RegisterPage registerPage = new RegisterPage();
     RecoveryPasswordPage recoveryPage = new RecoveryPasswordPage();
     User user = new User();
-    private String randomEmail = getRandomEmail();
-    private String randomName = getRandomName();
-    private String randomPassword = getRandomPassword();
-
+    GenerateRandomData randomData = new GenerateRandomData();
+    private String randomEmail = randomData.getRandomEmail();
+    private String randomPassword = randomData.getRandomPassword();
+    private String randomName = randomData.getRandomName();
     @Before
     public void createUserAndLogin() {
         open(REGISTER_URI);

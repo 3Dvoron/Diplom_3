@@ -37,18 +37,15 @@ public class MainPage {
 
 
     public boolean checkBunSelected() {
-        bunList.shouldBe(cssClass("tab_tab_type_current__2BEPc"));
-        return true;
+       return bunList.getAttribute("class").contains("tab_tab_type_current__2BEPc");
     }
 
     public boolean checkSauceSelected() {
-        sauceList.shouldBe(cssClass("tab_tab_type_current__2BEPc"));
-        return true;
+        return sauceList.getAttribute("class").contains("tab_tab_type_current__2BEPc");
     }
 
     public boolean checkFillingSelected() {
-        fillingList.shouldBe(cssClass("tab_tab_type_current__2BEPc"));
-        return true;
+        return fillingList.getAttribute("class").contains("tab_tab_type_current__2BEPc");
     }
     public void waitDownloadMainPage() {
         bunList.shouldBe(visible);

@@ -6,15 +6,18 @@ import org.junit.Before;
 import org.junit.Test;
 import pages.MainPage;
 import setup.Setup;
+import setup.Browser;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.webdriver;
 
 public class IngredientsListTest extends Setup {
     MainPage mainPage = new MainPage();
 
     @Before
     public void openBrowser() {
-        open(BASE_URI);
+        Browser browser = new Browser();
+        browser.getBrowser(BASE_URI);
     }
 
     @Test
@@ -41,7 +44,8 @@ public class IngredientsListTest extends Setup {
 
     @After
     public void closeDriver() {
-        WebDriverRunner.closeWebDriver();
+       webdriver().driver().close();
+        System.clearProperty("webdriver.chrome.driver");
     }
 
 }

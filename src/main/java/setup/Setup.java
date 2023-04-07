@@ -13,25 +13,5 @@ public class Setup {
     public static final String RECOVERY_URI = BASE_URI + "forgot-password";
     public static final String PROFILE_URI = BASE_URI + "account/profile";
     public static final String DELETE_USER_URI = BASE_URI + "api/auth/user";
-    Faker faker = new Faker();
 
-    public String getRandomName() {
-        return faker.name().firstName();
-    }
-
-    public String getRandomEmail() {
-        return faker.bothify("??????@gmail.com");
-    }
-
-    public String getRandomPassword() {
-        return faker.regexify("[a-z1-9]{10}");
-    }
-
-    public void getYandexBrowser(String link) {
-        ChromeOptions options = new ChromeOptions();
-        System.setProperty("webdriver.chrome.driver", "driver/yandexdriver.exe");
-        WebDriver driver = new ChromeDriver(options);
-        WebDriverRunner.setWebDriver(driver);
-        driver.get(link);
-    }
 }
