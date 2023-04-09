@@ -13,8 +13,7 @@ import setup.GenerateRandomData;
 import setup.Setup;
 
 import static com.codeborne.selenide.LocalStorageConditions.item;
-import static com.codeborne.selenide.Selenide.localStorage;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +31,7 @@ public class TransitionsTest extends Setup {
     private String randomName = randomData.getRandomName();
     @Before
     public void createUserAndLogin() {
-        open(REGISTER_URI);
+        browser.getBrowser(REGISTER_URI,"yandex");
         registerPage.registration(randomEmail, randomName, randomPassword);
         loginPage.authorization(randomEmail, randomPassword);
         localStorage().shouldHave(item("accessToken"));
@@ -43,7 +42,7 @@ public class TransitionsTest extends Setup {
     @Test
     @Description("Этот тест проверяет переход по клику на «Личный кабинет»")
     public void transitionsProfile() {
-        open(BASE_URI);
+        browser.getBrowser(BASE_URI,"yandex");
         mainPage.clickEnterAccount();
         loginPage.authorization(randomEmail, randomPassword);
         mainPage.clickProfile();
@@ -54,7 +53,7 @@ public class TransitionsTest extends Setup {
     @Test
     @Description("Этот тест проверяет переход из личного кабинета на главную если нажать на логотип Stellar Burgers")
     public void transitionsLogo() {
-        open(BASE_URI);
+        browser.getBrowser(BASE_URI,"yandex");
         mainPage.clickEnterAccount();
         loginPage.authorization(randomEmail, randomPassword);
         mainPage.clickProfile();
@@ -66,7 +65,7 @@ public class TransitionsTest extends Setup {
     @Test
     @Description("Этот тест проверяет переход из личного кабинета в конструктор")
     public void transitionsConstructorButton() {
-        open(BASE_URI);
+        browser.getBrowser(BASE_URI,"yandex");
         mainPage.clickEnterAccount();
         loginPage.authorization(randomEmail, randomPassword);
         mainPage.clickProfile();
@@ -79,7 +78,7 @@ public class TransitionsTest extends Setup {
     @Test
     @Description("Этот тест проверяет выход по кнопке «Выйти» в личном кабинете")
     public void logOut() {
-        open(LOGIN_URI);
+        browser.getBrowser(LOGIN_URI,"yandex");
         loginPage.authorization(randomEmail, randomPassword);
         mainPage.clickProfile();
         profilePage.clickExitButton();
@@ -89,7 +88,7 @@ public class TransitionsTest extends Setup {
 
     @After
     public void cleanData() {
-        WebDriverRunner.closeWebDriver();
+        webdriver().driver().close();
         user.delete(userToken);
     }
 }

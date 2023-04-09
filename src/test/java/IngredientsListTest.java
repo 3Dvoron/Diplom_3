@@ -17,7 +17,7 @@ public class IngredientsListTest extends Setup {
     @Before
     public void openBrowser() {
         Browser browser = new Browser();
-        browser.getBrowser(BASE_URI);
+        browser.getBrowser(BASE_URI,"yandex");
     }
 
     @Test
@@ -45,7 +45,6 @@ public class IngredientsListTest extends Setup {
     @After
     public void closeDriver() {
        webdriver().driver().close();
-        System.clearProperty("webdriver.chrome.driver");
     }
 
 }

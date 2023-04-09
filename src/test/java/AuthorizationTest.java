@@ -8,12 +8,12 @@ import pages.LoginPage;
 import pages.MainPage;
 import pages.RecoveryPasswordPage;
 import pages.RegisterPage;
+import setup.Browser;
 import setup.GenerateRandomData;
 import setup.Setup;
 
 import static com.codeborne.selenide.LocalStorageConditions.item;
-import static com.codeborne.selenide.Selenide.localStorage;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static org.junit.Assert.assertFalse;
 
 public class AuthorizationTest extends Setup {
@@ -24,20 +24,21 @@ public class AuthorizationTest extends Setup {
     RecoveryPasswordPage recoveryPage = new RecoveryPasswordPage();
     User user = new User();
     GenerateRandomData randomData = new GenerateRandomData();
+    Browser browser = new Browser();
     private String randomEmail = randomData.getRandomEmail();
     private String randomPassword = randomData.getRandomPassword();
     private String randomName = randomData.getRandomName();
     @Before
     public void createUserAndLogin() {
-        open(REGISTER_URI);
+        browser.getBrowser(REGISTER_URI,"yandex");
         registerPage.registration(randomEmail, randomName, randomPassword);
-        WebDriverRunner.closeWebDriver();
+        webdriver().driver().close();
     }
 
     @Test
     @Description("Этот тест проверяет вход по кнопке «Войти в аккаунт» на главной")
     public void loginMainStream() {
-        open(BASE_URI);
+        browser.getBrowser(BASE_URI,"yandex");
         mainPage.clickEnterAccount();
         loginPage.authorization(randomEmail, randomPassword);
         localStorage().shouldHave(item("accessToken"));
@@ -48,7 +49,7 @@ public class AuthorizationTest extends Setup {
     @Test
     @Description("Этот тест проверяет вход через кнопку «Личный кабинет»")
     public void loginProfileStream() {
-        open(BASE_URI);
+        browser.getBrowser(BASE_URI,"yandex");
         mainPage.clickProfile();
         loginPage.authorization(randomEmail, randomPassword);
         localStorage().shouldHave(item("accessToken"));
@@ -59,7 +60,7 @@ public class AuthorizationTest extends Setup {
     @Test
     @Description("Этот тест проверяет вход через кнопку в форме регистрации")
     public void loginRegisterStream() {
-        open(REGISTER_URI);
+        browser.getBrowser(REGISTER_URI,"yandex");
         registerPage.clickEnterLink();
         loginPage.authorization(randomEmail, randomPassword);
         localStorage().shouldHave(item("accessToken"));
@@ -70,7 +71,7 @@ public class AuthorizationTest extends Setup {
     @Test
     @Description("Этот тест проверяет вход через кнопку в форме восстановления пароля")
     public void loginRecoveryStream() {
-        open(RECOVERY_URI);
+        browser.getBrowser(RECOVERY_URI,"yandex");
         recoveryPage.clickEnterLink();
         loginPage.authorization(randomEmail, randomPassword);
         localStorage().shouldHave(item("accessToken"));
@@ -81,7 +82,7 @@ public class AuthorizationTest extends Setup {
 
     @After
     public void cleanData() {
-        WebDriverRunner.closeWebDriver();
+        webdriver().driver().close();
         user.delete(userToken);
     }
 }
